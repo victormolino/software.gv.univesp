@@ -1,0 +1,136 @@
+<?php
+
+class Version
+{
+    private $versionNumber;
+    private $creationDate;
+    private $author;
+    private $description;
+    private $sourceCode;
+    private $name;
+    private $class;
+    private $group;
+    private $tutor;
+
+    public function __construct($versionNumber, $creationDate, $author, $description, $sourceCode, $name, $class, $group, $tutor)
+    {
+        $this->versionNumber = $versionNumber;
+        $this->creationDate = $creationDate;
+        $this->author = $author;
+        $this->description = $description;
+        $this->sourceCode = $sourceCode;
+        $this->name = $name;
+        $this->class = $class;
+        $this->group = $group;
+        $this->tutor = $tutor;
+    }
+
+    // Métodos getters para acesso aos atributos
+    public function getVersionNumber()
+    {
+        return $this->versionNumber;
+    }
+
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function getSourceCode()
+    {
+        return $this->sourceCode;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    public function getTutor()
+    {
+        return $this->tutor;
+    }
+}
+
+class SoftwareVersionManager
+{
+    private $versions;
+
+    public function __construct()
+    {
+        $this->versions = array();
+    }
+
+    public function addVersion($versionNumber, $creationDate, $author, $description, $sourceCode, $name, $class, $group, $tutor)
+    {
+        $version = new Version($versionNumber, $creationDate, $author, $description, $sourceCode, $name, $class, $group, $tutor);
+        $this->versions[] = $version;
+    }
+
+    public function displayVersionHistory()
+    {
+        foreach ($this->versions as $version) {
+            echo "----------------------------------------\n";
+            echo "Versão: " . $version->getVersionNumber() . "\n";
+            echo "Data de Criação: " . $version->getCreationDate() . "\n";
+            echo "Autor: " . $version->getAuthor() . "\n";
+            echo "Descrição: " . $version->getDescription() . "\n";
+            echo "Código-fonte: " . $version->getSourceCode() . "\n";
+            echo "Nome: " . $version->getName() . "\n";
+            echo "Turma: " . $version->getClass() . "\n";
+            echo "Grupo: " . $version->getGroup() . "\n";
+            echo "Tutor: " . $version->getTutor() . "\n";
+        }
+    }
+
+    public function revertToVersion($versionNumber)
+    {
+        foreach ($this->versions as $key => $version) {
+            if ($version->getVersionNumber() === $versionNumber) {
+                $this->versions = array_slice($this->versions, 0, $key + 1);
+                break;
+            }
+        }
+    }
+}
+
+// Exemplo de uso do software de gerenciamento de versões
+
+// Instanciando o gerenciador de versões
+$versionManager = new SoftwareVersionManager();
+
+// Adicionando algumas versões
+$versionManager->addVersion(1, '2023-05-01', 'João', 'Primeira versão do software', '...código-fonte...', 'João Silva', 'Turma A', 'Grupo 1', 'Tutor 1');
+$versionManager->addVersion(2, '2023-05-05', 'Maria', 'Segunda versão do software', '...código-fonte...', 'Maria Souza', 'Turma B', 'Grupo 2', 'Tutor 2');
+$versionManager->addVersion(3, '2023-05-10', 'Pedro', 'Terceira versão do software', '...código-fonte...', 'Pedro Santos', 'Turma C', 'Grupo 3', 'Tutor 3');
+
+// Exibindo o histórico de versões
+echo "Histórico de Versões:\n";
+$versionManager->displayVersionHistory();
+
+// Revertendo para a versão 2
+$versionManager->revertToVersion(2);
+
+// Exibindo o histórico de versões após a reversão
+echo "\nHistórico de Versões Após Reversão:\n";
+$versionManager->displayVersionHistory();
